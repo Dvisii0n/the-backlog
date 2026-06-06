@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="styles.css" />
+		<title>Registro</title>
+	</head>
+	<body>
+		<form class="registro">
+			<div>
+				<label for="nombre">Usuario:</label>
+				<input
+					class="formInput"
+					type="text"
+					id="nombre"
+					name="nombre"
+					required
+				/>
+			</div>
+
+			<div>
+				<label for="correo">Correo:</label>
+				<input
+					class="formInput"
+					type="email"
+					id="correo"
+					name="correo"
+					required
+				/>
+			</div>
+
+			<div>
+				<label for="password">Contraseña:</label>
+				<input
+					class="formInput"
+					type="password"
+					id="password"
+					name="password"
+					required
+				/>
+			</div>
+
+			<button class="btn-registro" type="button">Registrarse</button>
+			<a href="login.html">Iniciar Sesion</a>
+		</form>
+	</body>
+	<script type="module" src="globales.js" defer></script>
+	<script type="module" src="scripts/registro.js" defer></script>
+</html>

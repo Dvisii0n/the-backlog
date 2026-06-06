@@ -1,0 +1,8 @@
+/*login y registro*/
+
+.registro {
+	max-width: 100px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
