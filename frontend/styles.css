@@ -1,8 +1,32 @@
 /*login y registro*/
 
-.registro {
+.registro,
+.login {
 	max-width: 100px;
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+}
+
+/*libreria*/
+.agregarJuego {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.aggJuegoLeyenda {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.campo {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.resultadoJuego:hover {
+	cursor: pointer;
+	background-color: rgb(172, 172, 172);
 }

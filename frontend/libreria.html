@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="styles.css" />
+		<title>Mi Backlog</title>
+	</head>
+	<body>
+		<section class="botones">
+			<button class="btnMostrarAggJuego">Agregar Juego</button>
+		</section>
+		<main class="juegos"></main>
+		<dialog class="dialogAggJuego">
+			<form class="agregarJuego">
+				<legend class="aggJuegoLeyenda">Agregar Juego</legend>
+				<div class="campo">
+					<label for="nombre">Nombre</label>
+					<input
+						class="formInput"
+						type="text"
+						id="nombre"
+						name="nombre"
+						placeholder="Nombre del juego"
+						required
+					/>
+				</div>
+
+				<div class="campo">
+					<label for="portada_url">URL Imagen Portada</label>
+					<input
+						class="formInput"
+						type="text"
+						id="portada_url"
+						name="portada_url"
+					/>
+				</div>
+
+				<button type="button" class="btnAutoLlenar">Autollenar (IGDB)</button>
+
+				<div class="campo">
+					<label for="genero">Género</label>
+					<input
+						class="formInput"
+						type="text"
+						id="genero"
+						name="genero"
+						placeholder="Género del juego"
+					/>
+				</div>
+
+				<div class="campo">
+					<label for="estado">Estado</label>
+					<select class="formInput" id="estado" name="estado" required>
+						<option value="POR_JUGAR">Por Jugar</option>
+						<option value="COMPLETADO">Completado</option>
+					</select>
+				</div>
+
+				<div class="campo">
+					<label for="hrs_finalizacion">Tiempo para completar</label>
+					<input
+						class="formInput"
+						type="text"
+						id="hrs_finalizacion"
+						name="hrs_finalizacion"
+						placeholder="Ej: 20 horas"
+					/>
+				</div>
+
+				<div class="campo">
+					<label for="calificacion_igdb">Calificacion IGDB</label>
+					<input
+						class="formInput"
+						type="number"
+						id="calificacion_igdb"
+						name="calificacion_igdb"
+						placeholder="Opcional 0-100"
+					/>
+				</div>
+
+				<div class="campo">
+					<label for="calificacion_personal">Calificacion Personal</label>
+					<input
+						class="formInput"
+						type="number"
+						id="calificacion_personal"
+						name="calificacion_personal"
+						placeholder="Opcional 0-100"
+					/>
+				</div>
+
+				<div class="campo">
+					<label for="fecha_lanzamiento">Fecha de lanzamiento</label>
+					<input
+						class="formInput"
+						type="date"
+						id="fecha_lanzamiento"
+						name="fecha_lanzamiento"
+					/>
+				</div>
+
+				<div class="campo">
+					<label for="clasificacion">Clasificación</label>
+					<input
+						class="formInput"
+						type="text"
+						id="clasificacion"
+						name="clasificacion"
+					/>
+				</div>
+
+				<div class="campo">
+					<label for="steam_url">Link steam</label>
+					<input
+						class="formInput"
+						type="url"
+						id="steam_url"
+						name="steam_url"
+						placeholder="https://store.steampowered.com/app/..."
+					/>
+				</div>
+				<button type="button" class="btnAgregarJuego">Agregar</button>
+				<button type="button" class="btnCerrarAggJuego">Cancelar</button>
+			</form>
+		</dialog>
+		<dialog class="resultadosDialog">
+			<div class="resultados">
+				<p>Seleccionar resultado</p>
+			</div>
+		</dialog>
+	</body>
+	<script type="module" src="src/libreria.js" defer></script>
+</html>
