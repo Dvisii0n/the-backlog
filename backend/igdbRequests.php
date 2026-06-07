@@ -29,7 +29,7 @@ class IGDBRequests
                 'Client-ID: ' . $this->clientId,
                 'Authorization: Bearer ' . $this->igdb_access_token
             ],
-            CURLOPT_POSTFIELDS => 'search "' . "$nombre" . '";' . 'fields name, genres.name, game_modes.name, rating, first_release_date, cover.url, age_ratings.rating_category.rating, age_ratings.rating_category.organization.name, websites.url, websites.type; limit 10;'
+            CURLOPT_POSTFIELDS => 'search "' . "$nombre" . '";' . 'fields name, genres.name, game_modes.name, rating, first_release_date, cover.url, age_ratings.rating_category.rating, age_ratings.rating_category.organization.name, websites.url, websites.type; limit 100;'
         ]);
         $response = curl_exec($ch);
         $juegos = json_decode($response, true);
