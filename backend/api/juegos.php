@@ -33,7 +33,7 @@ try {
             } else {
                 $datos = get_juegos($conn, $usuario['id']);
             }
-            echo json_encode($datos);
+            echo json_encode(['msg' => 'Juegos del usuario encontrados', 'juegos' => $datos, 'codigo' => 'EXITO']);
             break;
 
         case 'POST':
