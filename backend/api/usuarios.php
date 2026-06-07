@@ -3,6 +3,7 @@
 include './../consultas/consultasUsuarios.php';
 include './../auth.php';
 include './../db/conexion.php';
+include '../dotenvLoader.php';
 
 
 header("Access-Control-Allow-Origin: *");
@@ -19,7 +20,6 @@ $MYSQLI_ENTRADA_DUPLICADA = 1062;
 
 
 try {
-
     switch ($metodo) {
         case 'GET':
             $auth->protegerRuta();
@@ -38,7 +38,7 @@ try {
 
             } catch (mysqli_sql_exception $mysqli_err) {
                 if ($mysqli_err->getCode() == $MYSQLI_ENTRADA_DUPLICADA) {
-                    echo json_encode(['msg' => 'El usuario ya existe']);
+                    echo json_encode(['msg' => 'El usuario y/o el correo ya estan registrados']);
                 }
 
             }
