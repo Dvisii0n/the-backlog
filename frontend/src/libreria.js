@@ -1,13 +1,19 @@
-import { Formulario } from "./form.js";
+import { AgregarJuego } from "./agregarJuego.js";
 import { API_URL } from "../globales.js";
+import { Utils } from "./utils.js";
 
 class Libreria {
+	utils = new Utils();
 	constructor() {
 		this.contenedorJuegos = document.querySelector(".juegos");
+		this.infoJuegos = document.querySelector(".infoJuegos");
 		this.btnMostrarAggJuego = document.querySelector(".btnMostrarAggJuego");
 		this.btnCerrarAggJuego = document.querySelector(".btnCerrarAggJuego");
 		this.token = localStorage.getItem("token");
 		this.juegosEndpoint = `${API_URL}/juegos.php`;
+		if (!this.token) {
+			window.location.href = "login";
+		}
 	}
 
 	async init() {
@@ -34,8 +40,11 @@ class Libreria {
 					Authorization: `Bearer ${this.token}`,
 				},
 			});
-			const juegos = await respuesta.json();
-			return juegos;
+			const resultado = await respuesta.json();
+			if (resultado.codigo === "EXITO") {
+				const { juegos } = resultado;
+				return juegos;
+			}
 		} catch (error) {
 			throw error;
 		}
@@ -43,7 +52,11 @@ class Libreria {
 
 	mostrarJuegos(juegos) {
 		juegos.forEach((juego) => {
-			console.log(juego);
+			const tarjetaJuego = this.crearTarjetaJuego(juego);
+			this.contenedorJuegos.appendChild(tarjetaJuego);
+			tarjetaJuego.addEventListener("click", () => {
+				this.mostrarInfoJuego(juego);
+			});
 		});
 	}
 
@@ -56,138 +69,71 @@ class Libreria {
 		const dialog = document.querySelector(`.${claseDialog}`);
 		dialog.close();
 	}
-}
 
-class AgregarJuego extends Formulario {
-	constructor() {
-		const endpoint = `${API_URL}/juegos.php`;
-		const btnAgregarJuego = document.querySelector(".btnAgregarJuego");
-		const aggJuegoForm = document.querySelector(".agregarJuego");
-		const aggJuegoClaseInputs = ".formInput";
-
-		super(endpoint, btnAgregarJuego, aggJuegoForm, aggJuegoClaseInputs);
-
-		this.btnAutoLlenarJuego = document.querySelector(".btnAutoLlenar");
-		this.igdbProxyEndpoint = `${API_URL}/igdbProxy.php`;
-		this.token = localStorage.getItem("token");
-		this.dialogResultados = document.querySelector(".resultadosDialog");
-		this.dialogAggJuego = document.querySelector(".dialogAggJuego ");
+	crearTarjetaJuego(juego) {
+		const tarjeta = document.createElement("div");
+		tarjeta.className = "tarjetaJuego";
+		tarjeta.setAttribute("data-id", juego.id);
+		const portada = document.createElement("img");
+		portada.className = "portadaJuego";
+		portada.src = juego.portada_url;
+		tarjeta.appendChild(portada);
+		return tarjeta;
 	}
 
-	init() {
-		this.btnSubmit.addEventListener("click", () => this.eventoSubmit());
-		this.btnAutoLlenarJuego.addEventListener("click", () => this.autoLlenar());
-	}
+	crearInfoJuego(juego) {
+		const infoJuego = document.createElement("div");
+		infoJuego.setAttribute("data-id", juego.id);
 
-	async autoLlenar() {
-		if (!this.token) {
-			return;
-		}
+		const keyMatchTitle = {
+			nombre: "Nombre",
+			genero: "Genero",
+			estado: "Estado",
+			hrs_finalizacion: "Tiempo para completar",
+			calificacion_igdb: "Calificacion IGDB",
+			calificacion_personal: "Calificacion Personal",
+			clasificacion: "Clasificacion ESRB",
+			steam_url: "Link Steam",
+			fecha_lanzamiento: "Fecha De Lanzamiento",
+			fecha_agregado: "Fecha Agregado",
+			portada_url: "URL Portada",
+		};
 
-		const nombreJuego = document.querySelector("#nombre").value;
-		if (!nombreJuego) {
-			alert("Introduce un nombre");
-			return;
-		}
+		infoJuego.className = "infoJuego";
+		for (let key of Object.keys(juego)) {
+			if (key === "id" || key === "id_propietario") {
+				continue;
+			}
+			const infoSub = document.createElement("p");
+			infoSub.textContent = keyMatchTitle[key];
+			infoSub.className = "infoSub";
+			infoJuego.appendChild(infoSub);
 
-		const resultados = await this.buscarJuegos(nombreJuego);
-		this.mostrarResultados(resultados);
-	}
+			if (key.includes("url")) {
+				const infoA = document.createElement("a");
+				infoA.href = juego[key];
+				infoA.textContent = juego[key];
+				infoA.className = "infoLink";
+				infoJuego.appendChild(infoA);
+			} else {
+				const infoP = document.createElement("p");
+				infoP.textContent = key.startsWith("fecha")
+					? this.utils.formatearFecha(juego[key])
+					: juego[key];
+				infoP.className = "infoP";
 
-	async buscarJuegos(nombreJuego) {
-		try {
-			const respuesta = await fetch(
-				`${this.igdbProxyEndpoint}?nombre=${nombreJuego}`,
-				{
-					method: "GET",
-					headers: {
-						Authorization: `Bearer ${this.token}`,
-					},
-				},
-			);
-			const resultados = await respuesta.json();
-			return resultados.juegos;
-		} catch (error) {
-			throw error;
-		}
-	}
-
-	mostrarResultados(resultados) {
-		if (!this.dialogResultados.open) {
-			const resultados = document.querySelectorAll(".resultadoJuego");
-			resultados.forEach((res) => res.remove());
-		}
-
-		const resultadosContainer = document.querySelector(".resultados");
-		resultados.forEach((juego) => {
-			const resElement = document.createElement("div");
-			resElement.setAttribute("data-id", juego.id);
-			resElement.className = "resultadoJuego";
-
-			resElement.addEventListener("click", async () => {
-				(this.dialogResultados.close(), this.llenarCampos(juego));
-			});
-			const nombreP = document.createElement("p");
-			nombreP.textContent = juego.nombre;
-			resElement.appendChild(nombreP);
-			resultadosContainer.appendChild(resElement);
-		});
-
-		this.dialogResultados.showModal();
-	}
-
-	async llenarCampos(datosJuego) {
-		const tiempoFin = await this.obtenerTiempoFin(datosJuego.id);
-		datosJuego["hrs_finalizacion"] = tiempoFin;
-		for (let key of Object.keys(datosJuego)) {
-			const input = document.querySelector(`.formInput[name="${key}"]`);
-			if (input) {
-				input.value = datosJuego[key];
+				infoJuego.appendChild(infoP);
 			}
 		}
+
+		return infoJuego;
 	}
 
-	async obtenerTiempoFin(idJuego) {
-		try {
-			const respuesta = await fetch(`${this.igdbProxyEndpoint}?id=${idJuego}`, {
-				method: "GET",
-				headers: {
-					Authorization: `Bearer ${this.token}`,
-				},
-			});
-			const { tiempo } = await respuesta.json();
-			return tiempo;
-		} catch (error) {
-			throw error;
-		}
-	}
-
-	async eventoSubmit() {
-		if (!this.token) {
-			return;
-		}
-		try {
-			if (!this.form.reportValidity()) {
-				return;
-			}
-			const datos = this.utils.getFormDatos(this.claseInputs);
-			const respuesta = await fetch(this.submitEndpoint, {
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${this.token}`,
-				},
-				body: JSON.stringify(datos),
-			});
-			const resultado = await respuesta.json();
-			if (resultado.codigo === "EXITO") {
-				this.dialogAggJuego.close();
-				alert("Juego guardado");
-			} else if (resultado.codigo === "MYSQL_ERR") {
-				alert("Datos de juego invalidos");
-			}
-		} catch (error) {
-			throw error;
-		}
+	mostrarInfoJuego(juego) {
+		const infoJuegosExistentes = document.querySelectorAll(".infoJuego");
+		infoJuegosExistentes.forEach((el) => this.infoJuegos.removeChild(el));
+		const infoJuego = this.crearInfoJuego(juego);
+		this.infoJuegos.appendChild(infoJuego);
 	}
 }
 
