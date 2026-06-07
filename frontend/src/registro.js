@@ -1,5 +1,6 @@
 import { API_URL } from "../globales.js";
 import { Formulario } from "./form.js";
+
 class Registro extends Formulario {
 	constructor() {
 		const endpoint = `${API_URL}/usuarios.php`;
