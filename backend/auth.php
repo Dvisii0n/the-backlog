@@ -28,6 +28,19 @@ class Auth
             return false;
         }
 
+        $usuario = $this->getDatosJWT($key);
+
+        if ($usuario === null) {
+            http_response_code(403);
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getDatosJWT(string $key)
+    {
+
         $headers = new stdClass();
         $decodificado = JWT::decode($this->token, new Key($key, 'HS256'), $headers);
         $decodificado_arr = (array) $decodificado;
@@ -38,13 +51,8 @@ class Auth
         $resultado = $stmt->get_result();
         $usuario = $resultado->fetch_assoc();
 
+        return $usuario;
 
-        if ($usuario === null) {
-            http_response_code(403);
-            return false;
-        }
-
-        return true;
     }
 
 
