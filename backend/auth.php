@@ -58,11 +58,19 @@ class Auth
 
     public function protegerRuta()
     {
-        $usuarioAutenticado = $this->verificarJWT($this->key);
-        if (!$usuarioAutenticado) {
+        try {
+            $usuarioAutenticado = $this->verificarJWT($this->key);
+            if (!$usuarioAutenticado) {
+                http_response_code(403);
+                echo json_encode(['msg' => 'Usuario no autenticado', 'codigo' => 'AUTH_ERR']);
+                exit();
+            }
+        } catch (UnexpectedValueException $err) {
+
             http_response_code(403);
-            echo json_encode(['msg' => 'Usuario no autenticado']);
+            echo json_encode(['msg' => 'Token invalido', 'codigo' => 'JWT_ERR']);
             exit();
+
         }
     }
 }
