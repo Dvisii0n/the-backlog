@@ -6,6 +6,10 @@ class Utils {
 			.forEach((entrada) => (datosForm[`${entrada.name}`] = entrada.value));
 		return datosForm;
 	}
+
+	formatearFecha(fecha) {
+		return new Date(fecha).toLocaleDateString("en-GB");
+	}
 }
 
 export { Utils };
