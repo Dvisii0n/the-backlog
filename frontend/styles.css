@@ -9,6 +9,11 @@
 }
 
 /*libreria*/
+
+.libreria {
+	display: flex;
+	gap: 12px;
+}
 .agregarJuego {
 	display: flex;
 	flex-direction: column;
@@ -29,4 +34,34 @@
 .resultadoJuego:hover {
 	cursor: pointer;
 	background-color: rgb(172, 172, 172);
+}
+
+.juegos {
+	display: grid;
+	gap: 18px;
+	grid-template-columns: repeat(auto-fit, min(264px));
+	width: 70%;
+	align-self: flex-start;
+}
+
+.infoJuegos {
+	width: 30%;
+}
+
+.infoSub {
+	font-weight: bold;
+}
+
+.portadaJuego {
+	object-fit: cover;
+	object-position: center;
+}
+
+.tarjetaJuego {
+	height: 352px;
+	max-width: 264px;
+}
+
+.tarjetaJuego:hover {
+	cursor: pointer;
 }
