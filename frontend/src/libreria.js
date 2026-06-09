@@ -1,31 +1,67 @@
 import { AgregarJuego } from "./agregarJuego.js";
+import { EditarJuego } from "./editarJuego.js";
 import { API_URL } from "../globales.js";
 import { Utils } from "./utils.js";
 
 class Libreria {
 	utils = new Utils();
+	aggJuego = new AgregarJuego();
+	editarJuego = new EditarJuego();
 	constructor() {
 		this.contenedorJuegos = document.querySelector(".juegos");
 		this.infoJuegos = document.querySelector(".infoJuegos");
 		this.btnMostrarAggJuego = document.querySelector(".btnMostrarAggJuego");
 		this.btnCerrarAggJuego = document.querySelector(".btnCerrarAggJuego");
+		this.btnCerrarEditarJuego = document.querySelector(".btnCerrarEditarJuego");
 		this.token = localStorage.getItem("token");
 		this.juegosEndpoint = `${API_URL}/juegos.php`;
+
 		if (!this.token) {
 			window.location.href = "login";
 		}
+		this.aggJuego.init();
+		this.editarJuego.init();
 	}
 
 	async init() {
-		this.btnMostrarAggJuego.addEventListener("click", () =>
-			this.mostrarDialog("dialogAggJuego"),
-		);
+		this.btnMostrarAggJuego.addEventListener("click", () => {
+			this.mostrarDialog("dialogAggJuego");
+
+			const form = document.querySelector(".agregarJuego");
+			form.reset();
+		});
 		this.btnCerrarAggJuego.addEventListener("click", () =>
 			this.cerrarDialog("dialogAggJuego"),
 		);
 
+		this.btnCerrarEditarJuego.addEventListener("click", () => {
+			this.cerrarDialog("dialogEditarJuego");
+		});
+
 		const juegos = await this.getJuegos();
 		this.mostrarJuegos(juegos);
+
+		const botonesEditar = document.querySelectorAll(".btnMostrarEditarJuego");
+		botonesEditar.forEach((btn) =>
+			btn.addEventListener("click", (e) => {
+				const idJuego = btn.parentNode.parentNode.getAttribute("data-id");
+				this.editarJuego.setIdJuego(idJuego);
+
+				this.mostrarDialog("dialogEditarJuego");
+				this.editarJuego.llenarCamposInfoJuego();
+			}),
+		);
+
+		const botonesBorrar = document.querySelectorAll(".btnBorrarJuego");
+		botonesBorrar.forEach((btn) =>
+			btn.addEventListener("click", async () => {
+				const confirmar = confirm("Seguro que quieres borrar el juego?");
+				if (confirmar) {
+					const idJuego = btn.parentNode.parentNode.getAttribute("data-id");
+					await this.borrarJuego(idJuego);
+				}
+			}),
+		);
 	}
 
 	async getJuegos() {
@@ -71,6 +107,17 @@ class Libreria {
 	}
 
 	crearTarjetaJuego(juego) {
+		const botonesOverlay = document.createElement("div");
+		botonesOverlay.className = "botonesOverlay";
+		const btnMostrarEditarJuego = document.createElement("button");
+		btnMostrarEditarJuego.className = "btnMostrarEditarJuego";
+		btnMostrarEditarJuego.textContent = "editar";
+		botonesOverlay.appendChild(btnMostrarEditarJuego);
+
+		const btnBorrarJuego = document.createElement("button");
+		btnBorrarJuego.className = "btnBorrarJuego";
+		btnBorrarJuego.textContent = "borrar";
+		botonesOverlay.appendChild(btnBorrarJuego);
 		const tarjeta = document.createElement("div");
 		tarjeta.className = "tarjetaJuego";
 		tarjeta.setAttribute("data-id", juego.id);
@@ -78,7 +125,31 @@ class Libreria {
 		portada.className = "portadaJuego";
 		portada.src = juego.portada_url;
 		tarjeta.appendChild(portada);
+		tarjeta.appendChild(botonesOverlay);
 		return tarjeta;
+	}
+
+	async borrarJuego(idJuego) {
+		if (!this.token) {
+			return;
+		}
+
+		try {
+			const respuesta = await fetch(this.juegosEndpoint + `?id=${idJuego}`, {
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${this.token}`,
+				},
+			});
+			const resultado = await respuesta.json();
+			console.log(resultado);
+			if (resultado.codigo === "EXITO") {
+				alert("Juego borrado");
+				window.location.reload();
+			}
+		} catch (error) {
+			throw error;
+		}
 	}
 
 	crearInfoJuego(juego) {
@@ -89,7 +160,7 @@ class Libreria {
 			nombre: "Nombre",
 			genero: "Genero",
 			estado: "Estado",
-			hrs_finalizacion: "Tiempo para completar",
+			hrs_finalizacion: "Tiempo para completar (Horas)",
 			calificacion_igdb: "Calificacion IGDB",
 			calificacion_personal: "Calificacion Personal",
 			clasificacion: "Clasificacion ESRB",
@@ -115,6 +186,13 @@ class Libreria {
 				infoA.textContent = juego[key];
 				infoA.className = "infoLink";
 				infoJuego.appendChild(infoA);
+			} else if (key === "estado") {
+				const infoP = document.createElement("p");
+				infoP.textContent =
+					juego[key] === "POR_JUGAR" ? "Por Jugar" : "Completado";
+				infoP.className = "infoP";
+
+				infoJuego.appendChild(infoP);
 			} else {
 				const infoP = document.createElement("p");
 				infoP.textContent = key.startsWith("fecha")
@@ -138,6 +216,4 @@ class Libreria {
 }
 
 const libreria = new Libreria();
-const aggJuegoForm = new AgregarJuego();
 libreria.init();
-aggJuegoForm.init();

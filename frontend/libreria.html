@@ -61,13 +61,15 @@
 				</div>
 
 				<div class="campo">
-					<label for="hrs_finalizacion">Tiempo para completar</label>
+					<label for="hrs_finalizacion">Tiempo para completar (Horas)</label>
 					<input
 						class="formInput"
-						type="text"
+						type="number"
+						min="0"
 						id="hrs_finalizacion"
 						name="hrs_finalizacion"
-						placeholder="Ej: 20 horas"
+						placeholder="0"
+						step="0.01"
 					/>
 				</div>
 
@@ -78,7 +80,7 @@
 						type="number"
 						id="calificacion_igdb"
 						name="calificacion_igdb"
-						placeholder="Opcional 0-100"
+						placeholder="0-100"
 					/>
 				</div>
 
@@ -89,7 +91,7 @@
 						type="number"
 						id="calificacion_personal"
 						name="calificacion_personal"
-						placeholder="Opcional 0-100"
+						placeholder="0-100"
 					/>
 				</div>
 
@@ -125,6 +127,119 @@
 				</div>
 				<button type="button" class="btnAgregarJuego">Agregar</button>
 				<button type="button" class="btnCerrarAggJuego">Cancelar</button>
+			</form>
+		</dialog>
+
+		<dialog class="dialogEditarJuego">
+			<form class="editarJuego">
+				<legend class="editarJuegoLeyenda">Editar Juego</legend>
+				<div class="campo">
+				<label for="nombre">Nombre</label>
+				<input
+					class="formInputEdit"
+					type="text"
+					id="nombre-edit"
+					name="nombre"
+						required
+					/>
+				</div>
+
+				<div class="campo">
+				<label for="portada_url">URL Imagen Portada</label>
+				<input
+					class="formInputEdit"
+					type="text"
+					id="portada_url-edit"
+					name="portada_url"
+				</div>
+
+				<button type="button" class="btnAutoLlenarEdit">
+					Autollenar (IGDB)
+				</button>
+
+				<div class="campo">
+				<label for="genero">Género</label>
+				<input
+					class="formInputEdit"
+					type="text"
+					id="genero-edit"
+					name="genero"
+					/>
+				</div>
+
+				<div class="campo">
+				<label for="estado">Estado</label>
+				<select class="formInputEdit" id="estado-edit" name="estado" required>
+
+						<option value="POR_JUGAR">Por Jugar</option>
+						<option value="COMPLETADO">Completado</option>
+					</select>
+				</div>
+
+				<div class="campo">
+				<label for="hrs_finalizacion">Tiempo para completar (Horas)</label>
+				<input
+					class="formInputEdit"
+					type="number"
+					min="0"
+					id="hrs_finalizacion-edit"
+					name="hrs_finalizacion"
+						step="0.01"
+					/>
+				</div>
+
+				<div class="campo">
+				<label for="calificacion_igdb">Calificacion IGDB</label>
+				<input
+					class="formInputEdit"
+					type="number"
+					id="calificacion_igdb-edit"
+					name="calificacion_igdb"
+					/>
+				</div>
+
+				<div class="campo">
+				<label for="calificacion_personal">Calificacion Personal</label>
+				<input
+					class="formInputEdit"
+					type="number"
+					id="calificacion_personal-edit"
+					name="calificacion_personal"
+					/>
+				</div>
+
+				<div class="campo">
+				<label for="fecha_lanzamiento">Fecha de lanzamiento</label>
+				<input
+					class="formInputEdit"
+					type="date"
+					id="fecha_lanzamiento-edit"
+					name="fecha_lanzamiento"
+					/>
+				</div>
+
+				<div class="campo">
+				<label for="clasificacion">Clasificación</label>
+				<input
+					class="formInputEdit"
+					type="text"
+					id="clasificacion-edit"
+					name="clasificacion"
+					/>
+				</div>
+
+				<div class="campo">
+					<label for="steam_url">Link steam</label>
+					<input
+						class="formInputEdit"
+						type="url"
+						id="steam_url-edit"
+						name="steam_url"
+						placeholder="https://store.steampowered.com/app/..."
+					/>
+				</div>
+				<button type="button" class="btnEditarJuego">Editar</button>
+				<button type="button" class="btnCerrarEditarJuego">Cancelar</button>
 			</form>
 		</dialog>
 		<dialog class="resultadosDialog">

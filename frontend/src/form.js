@@ -1,6 +1,6 @@
 import { Utils } from "./utils.js";
 
-//formulario reusable que envia datos y muestra errores de validacion
+//formulario reusable que envia datos y muestra errores de validacion, nunca volver a hacer esta estupidez, no sirve para nada y sobrecomplica el codigo
 class Formulario {
 	utils = new Utils();
 	exitoRedirigirA = null;
