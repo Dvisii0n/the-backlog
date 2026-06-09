@@ -10,10 +10,18 @@ include './../db/conexion.php';
 $origin = $_SERVER['HTTP_ORIGIN'];
 header("Access-Control-Allow-Origin: $origin");
 header("Access-Control-Allow-Headers: Authorization, Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Content-Type: application/json");
 
 
+
 $metodo = $_SERVER['REQUEST_METHOD'];
+
+if ($metodo === 'OPTIONS') {
+    http_response_code(204);
+    exit();
+}
+
 $body = json_decode(file_get_contents('php://input'), true);
 $headers = getallheaders();
 
@@ -51,14 +59,14 @@ try {
             $auth->protegerRuta();
             if (isset($_GET['id'])) {
                 actualizar_juego($conn, $_GET['id'], $body);
-                echo json_encode(["msg" => 'Datos de juego actualizados']);
+                echo json_encode(["msg" => 'Datos de juego actualizados', 'codigo' => 'EXITO']);
             }
             break;
         case 'DELETE':
             $auth->protegerRuta();
             if (isset($_GET['id'])) {
                 borrar_juego($conn, $_GET['id']);
-                echo json_encode(['msg' => 'Juego borrado']);
+                echo json_encode(['msg' => 'Juego borrado', 'codigo' => 'EXITO']);
             }
             break;
 

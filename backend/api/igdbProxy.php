@@ -36,7 +36,7 @@ try {
 
             } elseif (isset($_GET['id'])) {
                 $tiempo_fin = $igdb_req->getTiemposFinalizacion($_GET['id']);
-                $tiempo_hrs = round($tiempo_fin[0]['normally'] / 3600, 2) . 'h';
+                $tiempo_hrs = round($tiempo_fin[0]['normally'] / 3600, 1);
 
                 echo json_encode(['tiempo' => $tiempo_hrs]);
 
