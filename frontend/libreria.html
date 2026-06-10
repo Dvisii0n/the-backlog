@@ -9,6 +9,10 @@
 	<body>
 		<section class="botones">
 			<button class="btnMostrarAggJuego">Agregar Juego</button>
+			<div class="botones-derecha">
+				<a class="btnHome" href="index.html">Inicio</a>
+				<a class="cerrarSesion" href="login.html">Cerrar Sesion</a>
+			</div>
 		</section>
 		<main class="libreria">
 			<section class="juegos"></section>
@@ -134,23 +138,24 @@
 			<form class="editarJuego">
 				<legend class="editarJuegoLeyenda">Editar Juego</legend>
 				<div class="campo">
-				<label for="nombre">Nombre</label>
-				<input
-					class="formInputEdit"
-					type="text"
-					id="nombre-edit"
-					name="nombre"
+					<label for="nombre">Nombre</label>
+					<input
+						class="formInputEdit"
+						type="text"
+						id="nombre-edit"
+						name="nombre"
 						required
 					/>
 				</div>
 
 				<div class="campo">
-				<label for="portada_url">URL Imagen Portada</label>
-				<input
-					class="formInputEdit"
-					type="text"
-					id="portada_url-edit"
-					name="portada_url"
+					<label for="portada_url">URL Imagen Portada</label>
+					<input
+						class="formInputEdit"
+						type="text"
+						id="portada_url-edit"
+						name="portada_url"
+					/>
 				</div>
 
 				<button type="button" class="btnAutoLlenarEdit">
@@ -158,73 +163,72 @@
 				</button>
 
 				<div class="campo">
-				<label for="genero">Género</label>
-				<input
-					class="formInputEdit"
-					type="text"
-					id="genero-edit"
-					name="genero"
+					<label for="genero">Género</label>
+					<input
+						class="formInputEdit"
+						type="text"
+						id="genero-edit"
+						name="genero"
 					/>
 				</div>
 
 				<div class="campo">
-				<label for="estado">Estado</label>
-				<select class="formInputEdit" id="estado-edit" name="estado" required>
-
+					<label for="estado">Estado</label>
+					<select class="formInputEdit" id="estado-edit" name="estado" required>
 						<option value="POR_JUGAR">Por Jugar</option>
 						<option value="COMPLETADO">Completado</option>
 					</select>
 				</div>
 
 				<div class="campo">
-				<label for="hrs_finalizacion">Tiempo para completar (Horas)</label>
-				<input
-					class="formInputEdit"
-					type="number"
-					min="0"
-					id="hrs_finalizacion-edit"
-					name="hrs_finalizacion"
+					<label for="hrs_finalizacion">Tiempo para completar (Horas)</label>
+					<input
+						class="formInputEdit"
+						type="number"
+						min="0"
+						id="hrs_finalizacion-edit"
+						name="hrs_finalizacion"
 						step="0.01"
 					/>
 				</div>
 
 				<div class="campo">
-				<label for="calificacion_igdb">Calificacion IGDB</label>
-				<input
-					class="formInputEdit"
-					type="number"
-					id="calificacion_igdb-edit"
-					name="calificacion_igdb"
+					<label for="calificacion_igdb">Calificacion IGDB</label>
+					<input
+						class="formInputEdit"
+						type="number"
+						id="calificacion_igdb-edit"
+						name="calificacion_igdb"
 					/>
 				</div>
 
 				<div class="campo">
-				<label for="calificacion_personal">Calificacion Personal</label>
-				<input
-					class="formInputEdit"
-					type="number"
-					id="calificacion_personal-edit"
-					name="calificacion_personal"
+					<label for="calificacion_personal">Calificacion Personal</label>
+					<input
+						class="formInputEdit"
+						type="number"
+						id="calificacion_personal-edit"
+						name="calificacion_personal"
 					/>
 				</div>
 
 				<div class="campo">
-				<label for="fecha_lanzamiento">Fecha de lanzamiento</label>
-				<input
-					class="formInputEdit"
-					type="date"
-					id="fecha_lanzamiento-edit"
-					name="fecha_lanzamiento"
+					<label for="fecha_lanzamiento">Fecha de lanzamiento</label>
+					<input
+						class="formInputEdit"
+						type="date"
+						id="fecha_lanzamiento-edit"
+						name="fecha_lanzamiento"
 					/>
 				</div>
 
 				<div class="campo">
-				<label for="clasificacion">Clasificación</label>
-				<input
-					class="formInputEdit"
-					type="text"
-					id="clasificacion-edit"
-					name="clasificacion"
+					<label for="clasificacion">Clasificación</label>
+					<input
+						class="formInputEdit"
+						type="text"
+						id="clasificacion-edit"
+						name="clasificacion"
 					/>
 				</div>
 

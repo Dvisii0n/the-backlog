@@ -15,6 +15,7 @@ class Libreria {
 		this.btnCerrarEditarJuego = document.querySelector(".btnCerrarEditarJuego");
 		this.token = localStorage.getItem("token");
 		this.juegosEndpoint = `${API_URL}/juegos.php`;
+		this.cerrarSesion = document.querySelector(".cerrarSesion");
 
 		if (!this.token) {
 			window.location.href = "login";
@@ -24,6 +25,10 @@ class Libreria {
 	}
 
 	async init() {
+		this.cerrarSesion.addEventListener("click", () => {
+			localStorage.removeItem("token");
+			window.location.reload;
+		});
 		this.btnMostrarAggJuego.addEventListener("click", () => {
 			this.mostrarDialog("dialogAggJuego");
 

@@ -1,28 +1,553 @@
-/*login y registro*/
-
-.registro,
-.login {
-	max-width: 100px;
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
-/*libreria*/
+:root {
+	--bg: #080c18;
+	--bg-card: #0d1225;
+	--bg-elevated: #121a30;
+	--bg-input: #0a0f1e;
+	--accent: #00d4ff;
+	--accent-dim: rgba(0, 212, 255, 0.08);
+	--accent-green: #00ff88;
+	--danger: #ff4757;
+	--text: #e4e8f0;
+	--text-dim: #7a8294;
+	--text-muted: #4a5268;
+	--border: #1a2440;
+	--radius: 8px;
+	--radius-lg: 12px;
+	--shadow: 0 4px 24px rgba(0, 212, 255, 0.06);
+	--font: "Segoe UI", system-ui, -apple-system, sans-serif;
+	--font-heading: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+	font-family: var(--font);
+	background: var(--bg);
+	color: var(--text);
+	min-height: 100vh;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* ===== LANDING / INDEX ===== */
+
+.landing {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem;
+	min-height: 100vh;
+	padding: 2rem;
+	text-align: center;
+	background: var(--bg);
+	background-image: radial-gradient(
+			ellipse at 50% 0%,
+			rgba(0, 212, 255, 0.06) 0%,
+			transparent 60%
+		),
+		radial-gradient(
+			ellipse at 80% 80%,
+			rgba(0, 255, 136, 0.03) 0%,
+			transparent 50%
+		);
+}
+
+.landing h1 {
+	font-family: var(--font-heading);
+	font-size: 3.5rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 6px;
+	background: linear-gradient(135deg, var(--accent), var(--accent-green));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	line-height: 1.2;
+}
+
+.landing h2 {
+	font-size: 1rem;
+	color: var(--text-dim);
+	font-weight: 400;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	margin-bottom: 2rem;
+}
+
+.landing .nav-links {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.landing a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.85rem 2.5rem;
+	border-radius: var(--radius);
+	background: var(--bg-elevated);
+	color: var(--text);
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.95rem;
+	border: 1px solid var(--border);
+	transition: all 0.25s ease;
+	min-width: 180px;
+	letter-spacing: 0.5px;
+}
+
+.landing a:hover {
+	border-color: var(--accent);
+	box-shadow: 0 0 24px var(--accent-dim), var(--shadow);
+	transform: translateY(-2px);
+	background: rgba(0, 212, 255, 0.06);
+}
+
+/* ===== FORM PAGES ===== */
+
+body:has(> .login),
+body:has(> .registro) {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: 1rem;
+	background-image: radial-gradient(
+			ellipse at 30% 20%,
+			rgba(0, 212, 255, 0.04) 0%,
+			transparent 50%
+		),
+		radial-gradient(
+			ellipse at 70% 80%,
+			rgba(0, 255, 136, 0.03) 0%,
+			transparent 50%
+		);
+}
+
+.login,
+.registro {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	width: 100%;
+	max-width: 380px;
+	padding: 2.5rem 2rem;
+	background: var(--bg-elevated);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow);
+}
+
+.login div,
+.registro div {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+}
+
+.login label,
+.registro label {
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--text-dim);
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+/* ===== INPUTS ===== */
+
+.formInput,
+.formInputEdit {
+	width: 100%;
+	padding: 0.7rem 0.9rem;
+	background: var(--bg-input);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	color: var(--text);
+	font-family: var(--font);
+	font-size: 0.95rem;
+	outline: none;
+	transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formInput:focus,
+.formInputEdit:focus {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.formInput::placeholder,
+.formInputEdit::placeholder {
+	color: var(--text-muted);
+}
+
+select.formInput,
+select.formInputEdit {
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237a8294' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 0.75rem center;
+	padding-right: 2rem;
+	cursor: pointer;
+}
+
+/* ===== BUTTONS ===== */
+
+.btnLogin,
+.btnRegistro,
+.btnAgregarJuego,
+.btnEditarJuego,
+.btnAutoLlenar,
+.btnAutoLlenarEdit,
+.btnMostrarAggJuego {
+	padding: 0.75rem 1.5rem;
+	border: none;
+	border-radius: var(--radius);
+	font-family: var(--font);
+	font-size: 0.95rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.25s ease;
+	letter-spacing: 0.5px;
+}
+
+.btnLogin,
+.btnRegistro,
+.btnAgregarJuego,
+.btnEditarJuego {
+	background: linear-gradient(135deg, var(--accent), #0099cc);
+	color: #000;
+}
+
+.btnLogin:hover,
+.btnRegistro:hover,
+.btnAgregarJuego:hover,
+.btnEditarJuego:hover {
+	box-shadow: 0 0 20px var(--accent-dim);
+	transform: translateY(-1px);
+}
+
+.btnAutoLlenar,
+.btnAutoLlenarEdit {
+	background: var(--bg-card);
+	color: var(--accent);
+	border: 1px solid var(--border);
+	font-size: 0.85rem;
+}
+
+.btnAutoLlenar:hover,
+.btnAutoLlenarEdit:hover {
+	border-color: var(--accent);
+	background: var(--accent-dim);
+}
+
+.btnCerrarAggJuego,
+.btnCerrarEditarJuego {
+	padding: 0.75rem 1.5rem;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: transparent;
+	color: var(--text-dim);
+	font-family: var(--font);
+	font-size: 0.95rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.25s ease;
+}
+
+.btnCerrarAggJuego:hover,
+.btnCerrarEditarJuego:hover {
+	color: var(--text);
+	border-color: var(--text-muted);
+}
+
+/* ===== FORM LINKS ===== */
+
+.login > a,
+.registro > a {
+	color: var(--accent);
+	text-decoration: none;
+	font-size: 0.9rem;
+	text-align: center;
+	padding-top: 0.5rem;
+	transition: color 0.2s ease;
+}
+
+.login > a:hover,
+.registro > a:hover {
+	color: var(--accent-green);
+	text-decoration: underline;
+}
+
+/* ===== ERROR LISTS ===== */
+
+.loginErrores,
+.registroErrores {
+	list-style: none;
+	max-width: 380px;
+	width: 100%;
+}
+
+.formError {
+	padding: 0.6rem 1rem;
+	margin-bottom: 0.5rem;
+	background: rgba(255, 71, 87, 0.1);
+	border: 1px solid rgba(255, 71, 87, 0.3);
+	border-radius: var(--radius);
+	color: var(--danger);
+	font-size: 0.9rem;
+}
+
+/* ===== LIBRERIA LAYOUT ===== */
+
+.botones {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 2rem;
+	background: var(--bg-card);
+	border-bottom: 1px solid var(--border);
+}
+
+.botones-derecha {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+}
+
+.btnMostrarAggJuego {
+	background: linear-gradient(135deg, var(--accent), #0099cc);
+	color: #000;
+	padding: 0.65rem 1.5rem;
+}
+
+.btnMostrarAggJuego:hover {
+	box-shadow: 0 0 20px var(--accent-dim);
+	transform: translateY(-1px);
+}
+
+.btnHome {
+	color: var(--text-dim);
+	text-decoration: none;
+	font-size: 0.9rem;
+	font-weight: 600;
+	padding: 0.65rem 1.5rem;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	transition: all 0.25s ease;
+}
+
+.btnHome:hover {
+	color: var(--accent);
+	border-color: var(--accent);
+}
+
+.cerrarSesion {
+	color: var(--text-dim);
+	text-decoration: none;
+	font-size: 0.9rem;
+	font-weight: 600;
+	padding: 0.65rem 1.5rem;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	transition: all 0.25s ease;
+}
+
+.cerrarSesion:hover {
+	color: var(--danger);
+	border-color: var(--danger);
+}
 
 .libreria {
 	display: flex;
 	gap: 12px;
-}
-.agregarJuego {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+	padding: 1.5rem 2rem;
+	min-height: calc(100vh - 56px);
 }
 
-.aggJuegoLeyenda {
-	font-size: 24px;
-	font-weight: bold;
+.juegos {
+	display: grid;
+	gap: 18px;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	width: 70%;
+	align-content: start;
+}
+
+.infoJuegos {
+	width: 30%;
+	position: sticky;
+	top: 1.5rem;
+	align-self: start;
+}
+
+/* ===== GAME CARDS ===== */
+
+.tarjetaJuego {
+	position: relative;
+	max-width: 264px;
+	width: 100%;
+	border-radius: var(--radius);
+	overflow: hidden;
+	background: var(--bg-card);
+	border: 1px solid var(--border);
+	transition: all 0.3s ease;
+	aspect-ratio: 3/4;
+}
+
+.tarjetaJuego:hover {
+	border-color: var(--accent);
+	box-shadow: 0 0 20px var(--accent-dim);
+	transform: translateY(-3px);
+	cursor: pointer;
+}
+
+.portadaJuego {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	display: block;
+}
+
+.botonesOverlay {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: flex;
+	gap: 4px;
+	padding: 6px;
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+
+.tarjetaJuego:hover .botonesOverlay {
+	opacity: 1;
+}
+
+.btnMostrarEditarJuego,
+.btnBorrarJuego {
+	padding: 4px 10px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-family: var(--font);
+}
+
+.btnMostrarEditarJuego {
+	background: var(--bg-elevated);
+	color: var(--accent);
+}
+
+.btnMostrarEditarJuego:hover {
+	background: var(--accent);
+	color: #000;
+}
+
+.btnBorrarJuego {
+	background: var(--bg-elevated);
+	color: var(--danger);
+}
+
+.btnBorrarJuego:hover {
+	background: var(--danger);
+	color: #fff;
+}
+
+/* ===== INFO PANEL ===== */
+
+.infoJuego {
+	background: var(--bg-elevated);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	padding: 1.5rem;
+}
+
+.infoSub {
+	font-weight: 700;
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: var(--text-dim);
+	margin-top: 1rem;
+	margin-bottom: 0.25rem;
+}
+
+.infoSub:first-child {
+	margin-top: 0;
+}
+
+.infoP {
+	color: var(--text);
+	font-size: 0.95rem;
+	word-break: break-word;
+}
+
+.infoLink {
+	color: var(--accent);
+	text-decoration: none;
+	font-size: 0.9rem;
+	word-break: break-all;
+	transition: color 0.2s ease;
+}
+
+.infoLink:hover {
+	color: var(--accent-green);
+	text-decoration: underline;
+}
+
+/* ===== DIALOGS ===== */
+
+.dialogAggJuego,
+.dialogEditarJuego,
+.resultadosDialog {
+	position: fixed;
+	inset: 0;
+	margin: auto;
+	background: var(--bg-elevated);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	padding: 2rem;
+	max-width: 480px;
+	width: 90%;
+	max-height: 85vh;
+	overflow-y: auto;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.dialogAggJuego::backdrop,
+.dialogEditarJuego::backdrop,
+.resultadosDialog::backdrop {
+	background: rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(4px);
+}
+
+.agregarJuego,
+.editarJuego {
+	display: flex;
+	flex-direction: column;
+	gap: 0.85rem;
+}
+
+.aggJuegoLeyenda,
+.editarJuegoLeyenda {
+	font-size: 1.3rem;
+	font-weight: 700;
+	margin-bottom: 0.5rem;
+	color: var(--accent);
+	letter-spacing: 1px;
 }
 
 .campo {
@@ -31,37 +556,47 @@
 	gap: 4px;
 }
 
+.campo label {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var(--text-dim);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+/* ===== IGDB RESULTS ===== */
+
+.resultadosDialog {
+	max-width: 400px;
+}
+
+.resultados {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.resultados p {
+	color: var(--text-dim);
+	font-size: 0.9rem;
+	margin-bottom: 0.5rem;
+}
+
+.resultadoJuego {
+	padding: 0.7rem 1rem;
+	border-radius: var(--radius);
+	border: 1px solid var(--border);
+	transition: all 0.2s ease;
+}
+
 .resultadoJuego:hover {
 	cursor: pointer;
-	background-color: rgb(172, 172, 172);
+	background: var(--accent-dim);
+	border-color: var(--accent);
 }
 
-.juegos {
-	display: grid;
-	gap: 18px;
-	grid-template-columns: repeat(auto-fit, min(264px));
-	width: 70%;
-	align-self: flex-start;
-}
-
-.infoJuegos {
-	width: 30%;
-}
-
-.infoSub {
-	font-weight: bold;
-}
-
-.portadaJuego {
-	object-fit: cover;
-	object-position: center;
-}
-
-.tarjetaJuego {
-	height: 352px;
-	max-width: 264px;
-}
-
-.tarjetaJuego:hover {
-	cursor: pointer;
+.resultadoJuego p {
+	color: var(--text);
+	font-weight: 500;
+	margin: 0;
 }
